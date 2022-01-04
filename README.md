@@ -66,5 +66,5 @@ this may take. Ideally (and very informally) if A calls lock() before B, then A
 should enter the critical section before B. Unfortunately, using the tools at hand
 we cannot determine which thread called lock() first. Instead, we split the lock()
 method into two sections of code (with corresponding execution intervals):
-1.A doorway section, whose execution interval DA consists of a bounded number of steps, and
-2.waiting section, whose execution interval WA may take an unbounded number of steps.
+* A doorway section, whose execution interval DA consists of a bounded number of steps, and
+* waiting section, whose execution interval WA may take an unbounded number of steps.
