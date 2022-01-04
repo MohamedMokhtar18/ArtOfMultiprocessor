@@ -56,3 +56,15 @@ The victim field is unchanging, and it cannot be equal to both A and B, so one
 of the two threads will enter level j + 1, reducing the number of stuck threads to
 k − 1, contradicting the induction hypothesis. 
 ##### The Filter lock algorithm is deadlock-free
+### Fairness
+A lock is first-come-first-served if, whenever, thread A finishes
+its doorway before thread B starts its doorway, then A cannot be overtaken by B
+
+The starvation-freedom property guarantees that every thread that calls lock()
+eventually enters the critical section, but it makes no guarantees about how long
+this may take. Ideally (and very informally) if A calls lock() before B, then A
+should enter the critical section before B. Unfortunately, using the tools at hand
+we cannot determine which thread called lock() first. Instead, we split the lock()
+method into two sections of code (with corresponding execution intervals):
+1.A doorway section, whose execution interval DA consists of a bounded number of steps, and
+2.waiting section, whose execution interval WA may take an unbounded number of steps.
