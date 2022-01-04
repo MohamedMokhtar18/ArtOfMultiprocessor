@@ -36,6 +36,7 @@ public class LockOne implements Lock {
 	public void unlock() {
 		int i = (int) Thread.currentThread().getId();
 		flag[i] = false;
+		System.out.println(i);
 
 	}
 
