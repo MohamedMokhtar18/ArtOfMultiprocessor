@@ -31,7 +31,7 @@ of the Peterson lock to multiple threads. The second solution, the Bakery lock,
 is perhaps the simplest and best known n-thread solution.
 
 The Peterson lock uses a two-element boolean flag array to indicate
-whether a thread is trying to enter the critical section. The Filter lock generalizes this notion with an n-element integer level[] array, where the value of
+whether a thread is trying to enter the critical section. The Filter lock generalizes this notion with an n-element integer level[] array, where the value of
 level[A] indicates the highest level that thread A is trying to enter. Each thread
 must pass through n − 1 levels of “exclusion” to enter its critical section. Each
 level ` has a distinct victim[`] field used to “filter out” one thread, excluding it
