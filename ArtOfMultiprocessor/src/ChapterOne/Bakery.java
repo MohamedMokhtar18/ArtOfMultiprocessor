@@ -29,7 +29,7 @@ public class Bakery implements Lock {
 		}
 		label[i]=max+1;
 		for (int k = 0; k < n; k++) {
-			while (k != i &&flag[k] && label[k] < label[i]) {};
+			while (k != i &&flag[k] && label[k] <= label[i]&&i<k) {};
 
 		}
 
