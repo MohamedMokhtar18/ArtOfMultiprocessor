@@ -23,3 +23,4 @@ A must eventually return from the lock() method, a contradiction.
 So it must be that B is also stuck in its lock() method call, waiting until either
 flag[A] becomes false or victim is set to A. But victim cannot be both A and
 B, a contradiction. 
+####  The Peterson lock algorithm is deadlock-free
