@@ -17,7 +17,7 @@ We now combine the LockOne and LockTwo algorithms to construct a starvation-free
 Proof: Suppose not. Suppose (without loss of generality) that A runs forever
 in the lock() method. It must be executing the while statement, waiting until
 either flag[B] becomes false or victim is set to B.
-What is B doing while A fails to make progress? Perhaps B is repeatedly entering and leaving its critical section. If so, however, then B sets victim to B as soon
+What is B doing while A fails to make progress? Perhaps B is repeatedly entering and leaving its critical section. If so, however, then B sets victim to B as soon
 as it reenters the critical section. Once victim is set to B, it does not change, and
 A must eventually return from the lock() method, a contradiction.
 So it must be that B is also stuck in its lock() method call, waiting until either
