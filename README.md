@@ -68,3 +68,43 @@ we cannot determine which thread called lock() first. Instead, we split the lock
 method into two sections of code (with corresponding execution intervals):
 * A doorway section, whose execution interval DA consists of a bounded number of steps, and
 * waiting section, whose execution interval WA may take an unbounded number of steps.
+
+### Lamport’s Bakery Algorithm
+The Bakery lock algorithm maintains the first-come-first-served property by using a distributed version of the number-dispensing machines often found in bakeries: each thread takes a number in the doorway and then waits until no thread with an earlier number is trying to enter it .
+In the Bakery lock, flag[A] is a Boolean flag indicating whether A wants to
+enter the critical section, and label[A] is an integer that indicates the thread’s
+relative order when entering the bakery, for each thread A
+In the Bakery lock, flag[A] is a Boolean flag indicating whether A wants to
+enter the critical section, and label[A] is an integer that indicates the thread’s
+relative order when entering the bakery, for each thread A
+to the writing of the new label[]
+the doorway. It establishes that thread’s order with respect to the other
+threads trying to acquire the lock. If two threads execute their doorways concurrently, they may read the same maximal label and pick the same new label. To
+break this symmetry, the algorithm uses a lexicographical ordering << on pairs
+of label[] and thread ids:
+``` label[i] < label[j] or label[i] = label[j] and i < j. ```
+In the waiting part of the Bakery algorithm.
+a thread repeatedly rereads
+the labels one after the other in some arbitrary order until it determines that no
+thread with a raised flag has a lexicographically smaller label/id pair.
+Since releasing a lock does not reset the label[], it is easy to see that each
+thread’s labels are strictly increasing. Interestingly, in both the doorway and waiting sections, threads read the labels asynchronously and in an arbitrary order, so
+that the set of labels seen prior to picking a new one may have never existed in
+memory at the same time. Nevertheless, the algorithm works.
+#### The Bakery lock algorithm is deadlock-free
+Proof: If A’s doorway precedes B’s, DA → DB, then A’s label is smaller since
+writeA(label[A]) → readB(label[A]) → writeB(label[B]) → readB(flag[A]),
+so B is locked out while flag[A] is true. 
+Note that any algorithm that is both deadlock-free and first-come-first-served
+is also starvation-free.
+#### The Bakery algorithm satisfies mutual exclusion
+Proof: Suppose not. Let A and B be two threads concurrently in the critical section. Let labelingA
+and labelingB
+be the last respective sequences of acquiring
+new labels prior to entering the critical section. Suppose that (label[A],A) <<
+(label[B],B). When B successfully completed the test in its waiting section, it
+must have read that flag[A] was false or that (label[B],B) << (label[A],A).
+However, for a given thread, its id is fixed and its label[] values are strictly
+increasing, so B must have seen that flag[A] was false. It follows that
+labelingB → readB(flag[A]) → writeA(flag[A]) → labelingA
+which contradicts the assumption that (label[A],A) << (label[B],B).
