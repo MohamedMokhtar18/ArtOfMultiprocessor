@@ -128,3 +128,10 @@ The idea shows an execution in which A enqueues a, B enqueues b, and C dequeues 
 and second returning b. Overlapping intervals indicate concurrent method calls.
 All three method calls overlap in time. [as in LockBasedQueue class](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterTwo/LockBasedQueue.java), as in others, time move
 ![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/enqdeqlockbased.PNG "Locking queue execution")
+
+### WaitFreeQueue
+the alternative concurrent queue implementation .This queue is correct only if it is shared by a single enqueuer and a single
+dequeuer. It has almost the same internal representation as the lock-based queue.The only difference is the absence of a lock. We claim this is a correct
+implementation of a single-enqueuer/single-dequeuer FIFO queue, although it is
+no longer easy to explain why. It may not even be clear what it means for a queue
+to be FIFO when enqueues and dequeues are concurrent.
