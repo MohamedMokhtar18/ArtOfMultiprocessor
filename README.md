@@ -108,3 +108,23 @@ However, for a given thread, its id is fixed and its label[] values are strictly
 increasing, so B must have seen that flag[A] was false. It follows that
 labelingB → readB(flag[A]) → writeA(flag[A]) → labelingA
 which contradicts the assumption that (label[A],A) << (label[B],B).
+## Chapter Two
+Concurrent Objects :-The behavior of concurrent objects is best described through their safety and
+liveness properties, often referred to as correctness and progress.
+While all notions of correctness for concurrent objects are based on some
+notion of equivalence with sequential behavior, different notions are appropriate
+for different systems. We examine three correctness conditions. Quiescent consistency is appropriate for applications that require high performance at the cost of
+placing relatively weak constraints on object behavior. Sequential consistency is
+a stronger condition, often useful for describing low-level systems such as hardware memory interfaces. Linearizability, even stronger, is useful for describing
+higher-level systems composed from linearizable components.
+Along a different dimension
+Some are blocking, where the delay of any one thread
+can delay others, and some are nonblocking, where the delay of a thread cannot
+delay the others.
+### LockBasedQueue
+The ```enq() and deq()``` methods synchronize by a mutual exclusion lock.this implementation is a correct concurrent FIFO queue.
+##### Because each method accesses and updates fields while holding an exclusive lock, the method calls take effect sequentially.
+The idea shows an execution in which A enqueues a, B enqueues b, and C dequeues twice, first throwing EmptyException,
+and second returning b. Overlapping intervals indicate concurrent method calls.
+All three method calls overlap in time. [as in LockBasedQueue class](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterTwo/LockBasedQueue.java), as in others, time move
+![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/enqdeqlockbased.PNG "Locking queue execution")
