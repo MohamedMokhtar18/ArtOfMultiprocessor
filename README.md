@@ -151,7 +151,7 @@ M-valued register. We do not explicitly discuss any other kind of register, exce
 to note that any algorithm that implements integer registers can be adapted to
 implement registers that hold references to other objects, simply by treating those
 references as integers.
-##### An atomic register r is a linearizable implementation of the sequential register
+##### An atomic register is a linearizable implementation of the sequential register
 class shown in [SequentialRegister](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SequentialRegister.java) Informally, an atomic register behaves exactly as we would
 expect: each read returns the “last” value written. threads communicate by reading and writing to atomic registers is intuitively appealing, and
 for a long time was the standard model of concurrent computation.It is also important to specify how many readers and writers are expected. Not
