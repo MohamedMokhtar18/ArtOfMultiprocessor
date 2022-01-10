@@ -232,3 +232,14 @@ The reader then lets all later readers know the latest value it read by writing 
 value to all locations in its corresponding row (a_table[A][B] for all B). It thus
 follows that after a read by A is completed, every later read by a B sees the last
 value A read (since it reads a_table[A][B]). ![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/execution%20of%20the%20MRSW.PNG "Execution of the MRSW") 
+
+### An Atomic MRMW Register
+               an atomic MRMW register from an array of atomic
+MRSW registers, one per thread.
+To write to the register, A reads all the array elements, chooses a timestamp
+higher than any it has observed, and writes a stamped value to array element A.
+To read the register, a thread reads all the array elements, and returns the one
+with the highest timestamp. This is exactly the timestamp algorithm used by the
+[Bakery algorithm](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterOne/Bakery.java), we resolve ties in
+favor of the thread with the lesser index; in other words, we use a lexicographic
+order on pairs of timestamp and thread ids.
