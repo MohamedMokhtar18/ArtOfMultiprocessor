@@ -135,3 +135,20 @@ dequeuer. It has almost the same internal representation as the lock-based queue
 implementation of a single-enqueuer/single-dequeuer FIFO queue, although it is
 no longer easy to explain why. It may not even be clear what it means for a queue
 to be FIFO when enqueues and dequeues are concurrent.
+
+## Chapter Three
+### The Space of Registers
+At the hardware level, threads communicate by reading and writing shared
+memory.
+A read–write register (or just a register), is an object that encapsulates a value
+that can be observed by a read() method and modified by a write() method
+(in real systems these method calls are often called load and store).[Register interface](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterTwo/LockBasedQueue.java) illustrates the Register<T> interface implemented by all registers. The type T
+of the value is typically either Boolean, Integer, or a reference to an object.
+A register that implements the Register<Boolean> interface is called a Boolean
+register (we sometimes use 1 and 0 as synonyms for true and false). A register
+that implements Register<Integer> for a range of M integer values is called an
+M-valued register. We do not explicitly discuss any other kind of register, except
+to note that any algorithm that implements integer registers can be adapted to
+implement registers that hold references to other objects, simply by treating those
+references as integers.
+
