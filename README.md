@@ -243,3 +243,22 @@ with the highest timestamp. This is exactly the timestamp algorithm used by the
 [Bakery algorithm](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterOne/Bakery.java), we resolve ties in
 favor of the thread with the lesser index; in other words, we use a lexicographic
 order on pairs of timestamp and thread ids.
+### Atomic Snapshots
+              register value can be read and written atomically. What if
+we want to read multiple register values atomically? We call such an operation an
+atomic snapshot.
+              An atomic snapshot constructs an instantaneous view of an array of atomic
+registers. We construct a wait-free snapshot, meaning that a thread can take an
+instantaneous snapshot of memory without delaying any other thread. Atomic
+snapshots might be useful for backups or checkpoints.
+              [The Snapshot interface](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/Snapshot.java) is just an array of atomic MRSW registers,
+one for each thread. The update() method writes a value v to the calling thread’s
+register in that array, while the scan() method returns an atomic snapshot of that
+array.
+###  A sequential snapshot
+              wait-free implementation that is equivalent (that is,
+linearizable) to the sequential specification [sequential Snapshot ](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SeqSnapshot.java). The key property
+of this sequential implementation is that scan() returns a collection of values,
+each corresponding to the latest preceding update(), that is, it returns a collection of register values that existed together in the same system stat
+
+              
