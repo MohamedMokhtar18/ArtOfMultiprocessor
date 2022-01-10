@@ -279,6 +279,7 @@ scan() completes if it runs by itself for long enough.
 update() call calls scan(), and appends the result of the scan to the value’s
 label. More precisely, each value written to a register has the structure shown
 in [Stamped Snapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/StampedSnap.java) a stamp field incremented each time the thread updates its value.
-![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/scan%20exe.PNG "scan Test")
 a value field containing the register’s actual value, and a snap field containing
-that thread’s most recent scan. The snapshot algorithm is described in Fig. 4.21
+that thread’s most recent scan. The snapshot algorithm is described in [WF Snapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/WFSnapshot.java)
+![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/scan%20exe.PNG "scan Test")
+
