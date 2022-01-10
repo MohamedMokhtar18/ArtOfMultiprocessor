@@ -177,3 +177,19 @@ value.
 values must be true and false because the register is Boolean. A concurrent
 read returns some value in the range of the register, namely either true or
 false, either of which is correct. 
+### A Regular M-Valued MRSW Register
+The jump from Boolean to M-valued registers is simple, if astonishingly
+inefficient: we represent the value in unary notation. [RegularMRSWRegister](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/RegMRSWRegister.java) implement
+an M-valued register as an array of M Boolean registers. Initially the register is
+set to value zero, indicated by the “0”-th bit being set to true. A write method of
+value x writes true in location x and then in descending array-index order sets all
+lower locations to false. A reading method reads the locations in ascending index
+order until the first time it reads the value true in some index i. It then returns i.
+![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/RegMRSWRegister.PNG"Regular MRSWRegister Test")
+  When the register is initialized, there are no readers, and the constructor (we
+treat the constructor call as a write(0) call) sets r_bit[0] to true. Assume a
+reader is reading r_bit[j], and that r_bit[k] is true, for k > j.
+* If the reader advances from j to j + 1, then r_bit[j] is false, so k > j (i.e., a
+bit greater than or equal to j + 1 is true).
+*The writer clears r_bit[k] only if it set a higher r_bit[`] to true,
+for $ > k.
