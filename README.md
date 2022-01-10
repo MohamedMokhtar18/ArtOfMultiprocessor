@@ -209,20 +209,19 @@ newly written value with a later timestamp (a timestamp greater by 1)
 ### An Atomic MRSW Register
 construct an atomic MRSW register from atomic SRSW registers which took us from SRSW to MRSW safe registers. Let the
 SRSW registers composing the table array a_table[0..n − 1] be atomic instead
-of safe, with all other calls remaining the same: the writer writes the array locations in increasing index order and then each reader reads and returns its associated array entry. The result is not a multi-reader atomic register. ```if Ri → Rj
-then i <= j.``` 
+of safe, with all other calls remaining the same: the writer writes the array locations in increasing index order and then each reader reads and returns its associated array entry. The result is not a multi-reader atomic register. ```if Ri → Rj then i <= j.``` 
 holds for any single reader because each reader reads from an atomic register, yet
 it does not hold for distinct readers. Consider, for example, a write that starts
 by setting the first SRSW register a_table[0], and is delayed before writing the
 remaining locations a_table[1..n − 1]. A subsequent read by thread 0 returns
 the correct new value, but a subsequent read by thread 1 that completely follows
 the read by thread 0, reads and returns the earlier value because the writer has yet.
-              to update a_table[1..n − 1]. We address this problem by having earlier reader
+to update a_table[1..n − 1]. We address this problem by having earlier reader
 threads help out later threads by telling them which value they read.
 This implementation appears in Fig. 4.12. The n threads share an n-by-n array
 a_table[0..n − 1][0..n − 1] of stamped values. As in Section 4.2.4, we use timestamped values to allow early reads to tell later reads which of the values read is
 the latest. The locations along the diagonal, a_table[i][i] for all i, correspond to
-the registers in our failed simple construction mentioned earlier. The writer simply writes the diagonal locations one after the other with a new value and a timestamp that increases from one write() call to the next. Each reader A first reads
+the registers in our failed simple construction mentioned earlier. The writer simply writes the diagonal locations one after the other with a new value and a timestamp that increases from one write() call to the next. Each reader A first reads
 a_table[A][A] as in the earlier algorithm. It then uses the remaining SRSW
 locations a_table[A][B], A 6= B for communication between readers A and B.
 Each reader A, after reading a_table[A][A], checks to see if some other reader
@@ -234,7 +233,7 @@ follows that after a read by A is completed, every later read by a B sees the la
 value A read (since it reads a_table[A][B]). ![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/execution%20of%20the%20MRSW.PNG "Execution of the MRSW") 
 
 ### An Atomic MRMW Register
-               an atomic MRMW register from an array of atomic
+an atomic MRMW register from an array of atomic
 MRSW registers, one per thread.
 To write to the register, A reads all the array elements, chooses a timestamp
 higher than any it has observed, and writes a stamped value to array element A.
@@ -244,10 +243,10 @@ with the highest timestamp. This is exactly the timestamp algorithm used by the
 favor of the thread with the lesser index; in other words, we use a lexicographic
 order on pairs of timestamp and thread ids.
 ### Atomic Snapshots
-              register value can be read and written atomically. What if
+register value can be read and written atomically. What if
 we want to read multiple register values atomically? We call such an operation an
 atomic snapshot.
-              An atomic snapshot constructs an instantaneous view of an array of atomic
+ An atomic snapshot constructs an instantaneous view of an array of atomic
 registers. We construct a wait-free snapshot, meaning that a thread can take an
 instantaneous snapshot of memory without delaying any other thread. Atomic
 snapshots might be useful for backups or checkpoints.
@@ -256,7 +255,7 @@ one for each thread. The update() method writes a value v to the calling thread�
 register in that array, while the scan() method returns an atomic snapshot of that
 array.
 ###  A sequential snapshot
-              wait-free implementation that is equivalent (that is,
+wait-free implementation that is equivalent (that is,
 linearizable) to the sequential specification [sequential Snapshot ](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SeqSnapshot.java). The key property
 of this sequential implementation is that scan() returns a collection of values,
 each corresponding to the latest preceding update(), that is, it returns a collection of register values that existed together in the same system stat
