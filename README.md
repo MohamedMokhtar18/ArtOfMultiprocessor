@@ -185,7 +185,7 @@ set to value zero, indicated by the “0”-th bit being set to true. A write me
 value x writes true in location x and then in descending array-index order sets all
 lower locations to false. A reading method reads the locations in ascending index
 order until the first time it reads the value true in some index i. It then returns i.
-![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/RegMRSWRegister.PNG"Regular MRSWRegister Test")
+![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/RegMRSWRegister.PNG "Regular MRSWRegister Test")
   When the register is initialized, there are no readers, and the constructor (we
 treat the constructor call as a write(0) call) sets r_bit[0] to true. Assume a
 reader is reading r_bit[j], and that r_bit[k] is true, for k > j.
@@ -206,3 +206,29 @@ be ordered properly by concurrent read calls. Each read remembers the latest
 future reads. If a later read then reads an earlier value (one having a lower timestamp), it ignores that value and simply uses the remembered latest value.
 Similarly, the writer remembers the latest timestamp it wrote, and tags each
 newly written value with a later timestamp (a timestamp greater by 1)
+### An Atomic MRSW Register
+construct an atomic MRSW register from atomic SRSW registers which took us from SRSW to MRSW safe registers. Let the
+SRSW registers composing the table array a_table[0..n − 1] be atomic instead
+of safe, with all other calls remaining the same: the writer writes the array locations in increasing index order and then each reader reads and returns its associated array entry. The result is not a multi-reader atomic register. ```if Ri → Rj
+then i <= j.``` 
+holds for any single reader because each reader reads from an atomic register, yet
+it does not hold for distinct readers. Consider, for example, a write that starts
+by setting the first SRSW register a_table[0], and is delayed before writing the
+remaining locations a_table[1..n − 1]. A subsequent read by thread 0 returns
+the correct new value, but a subsequent read by thread 1 that completely follows
+the read by thread 0, reads and returns the earlier value because the writer has yet.
+              to update a_table[1..n − 1]. We address this problem by having earlier reader
+threads help out later threads by telling them which value they read.
+This implementation appears in Fig. 4.12. The n threads share an n-by-n array
+a_table[0..n − 1][0..n − 1] of stamped values. As in Section 4.2.4, we use timestamped values to allow early reads to tell later reads which of the values read is
+the latest. The locations along the diagonal, a_table[i][i] for all i, correspond to
+the registers in our failed simple construction mentioned earlier. The writer simply writes the diagonal locations one after the other with a new value and a timestamp that increases from one write() call to the next. Each reader A first reads
+a_table[A][A] as in the earlier algorithm. It then uses the remaining SRSW
+locations a_table[A][B], A 6= B for communication between readers A and B.
+Each reader A, after reading a_table[A][A], checks to see if some other reader
+has read a later value by traversing its corresponding column (a_table[B][A]
+for all B), and checking if it contains a later value (one with a higher timestamp).
+The reader then lets all later readers know the latest value it read by writing this
+value to all locations in its corresponding row (a_table[A][B] for all B). It thus
+follows that after a read by A is completed, every later read by a B sees the last
+value A read (since it reads a_table[A][B]). ![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/execution%20of%20the%20MRSW.PNG "Execution of the MRSW") 
