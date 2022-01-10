@@ -258,6 +258,18 @@ array.
 wait-free implementation that is equivalent (that is,
 linearizable) to the sequential specification [sequential Snapshot ](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SeqSnapshot.java). The key property
 of this sequential implementation is that scan() returns a collection of values,
-each corresponding to the latest preceding update(), that is, it returns a collection of register values that existed together in the same system stat
-
-              
+each corresponding to the latest preceding update(), that is, it returns a collection of register values that existed together in the same system state
+### An Obstruction-Free Snapshot (SimpleSnapshot)
+We begin with a [SimpleSnapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SimpleSnapshot.java) class for which update() is wait-free, but scan() is obstruction-free. We then extend this algorithm to make scan() Just as for the atomic MRSW register construction, each value includes a
+ [StampedValue](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/StampedValue.java) object with stamp and value fields. Each update() call increments the timestamp.
+A collect is the non atomic act of copying the register values one-by-one into
+an array. If we perform two collects one after the other, and both collects read the same set of timestamps, then we know that there was an interval during which no
+thread updated its register, so the result of the collect is a snapshot of the system
+state immediately after the end of the first collect. We call such a pair of collects a
+clean double collect.
+In the construction shown in the [SimpleSnapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SimpleSnapshot.java) class, each thread repeatedly calls collect(), and returns as soon as it detects
+a clean double collect (one in which both sets of timestamps were identical).
+This construction always returns correct values. The update() calls are wait-free,
+but scan() is not because any call can be repeatedly interrupted by update(),
+and may run forever without completing. It is however obstruction-free, since a
+scan() completes if it runs by itself for long enough.
