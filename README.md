@@ -142,7 +142,7 @@ At the hardware level, threads communicate by reading and writing shared
 memory.
 A read–write register (or just a register), is an object that encapsulates a value
 that can be observed by a read() method and modified by a write() method
-(in real systems these method calls are often called load and store).[Register interface](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterTwo/LockBasedQueue.java) illustrates the Register<T> interface implemented by all registers. The type T
+(in real systems these method calls are often called load and store).[Register interface](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/Register.java) illustrates the Register<T> interface implemented by all registers. The type T
 of the value is typically either Boolean, Integer, or a reference to an object.
 A register that implements the Register<Boolean> interface is called a Boolean
 register (we sometimes use 1 and 0 as synonyms for true and false). A register
@@ -151,4 +151,8 @@ M-valued register. We do not explicitly discuss any other kind of register, exce
 to note that any algorithm that implements integer registers can be adapted to
 implement registers that hold references to other objects, simply by treating those
 references as integers.
-
+##### An atomic register r is a linearizable implementation of the sequential register
+class shown in [SequentialRegister](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/SequentialRegister.java) Informally, an atomic register behaves exactly as we would
+expect: each read returns the “last” value written. threads communicate by reading and writing to atomic registers is intuitively appealing, and
+for a long time was the standard model of concurrent computation.It is also important to specify how many readers and writers are expected. Not
+surprisingly
