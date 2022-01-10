@@ -193,3 +193,16 @@ reader is reading r_bit[j], and that r_bit[k] is true, for k > j.
 bit greater than or equal to j + 1 is true).
 * The writer clears r_bit[k] only if it set a higher r_bit[`] to true,
 for $ > k.
+
+### An Atomic SRSW Register
+  SRSW regular register has no concurrent reads An atomic register satisfies one additional condition ```if Ri → Rj
+then i <= j.``` This condition states that an earlier read cannot return a value later than that
+returned by a later read. Regular registers are not required to satisfy Condition can be violated is if two reads that
+overlap the same write read values out-of-order, the first returning vi and the latter returning vj , where j < i .
+[StampedValue](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/StampedValue.java) describes a class of values that each have an added tag that
+contains a timestamp.[AtomicSRSWRegister](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/AtomicSRSWRegister.java) will use these tags to order write calls so that they can
+be ordered properly by concurrent read calls. Each read remembers the latest
+(highest timestamp) timestamp/value pair ever read, so that it is available to
+future reads. If a later read then reads an earlier value (one having a lower timestamp), it ignores that value and simply uses the remembered latest value.
+Similarly, the writer remembers the latest timestamp it wrote, and tags each
+newly written value with a later timestamp (a timestamp greater by 1)
