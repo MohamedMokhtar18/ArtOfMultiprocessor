@@ -273,3 +273,12 @@ This construction always returns correct values. The update() calls are wait-fre
 but scan() is not because any call can be repeatedly interrupted by update(),
 and may run forever without completing. It is however obstruction-free, since a
 scan() completes if it runs by itself for long enough.
+![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/snapshot%20exe.PNG "snapshot Test")
+### A Wait-Free Snapshot
+[Stamped Snapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/StampedSnap.java)and [WF Snapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/WFSnapshot.java) show the wait-free snapshot algorithm. Each
+update() call calls scan(), and appends the result of the scan to the value’s
+label. More precisely, each value written to a register has the structure shown
+in [Stamped Snapshot](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/ChapterThree/StampedSnap.java) a stamp field incremented each time the thread updates its value.
+![alt text](https://github.com/MohamedMokhtar18/ArtOfMultiprocessor/blob/main/ArtOfMultiprocessor/src/common/img/scan%20exe.PNG "scan Test")
+a value field containing the register’s actual value, and a snap field containing
+that thread’s most recent scan. The snapshot algorithm is described in Fig. 4.21
