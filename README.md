@@ -191,5 +191,5 @@ treat the constructor call as a write(0) call) sets r_bit[0] to true. Assume a
 reader is reading r_bit[j], and that r_bit[k] is true, for k > j.
 * If the reader advances from j to j + 1, then r_bit[j] is false, so k > j (i.e., a
 bit greater than or equal to j + 1 is true).
-*The writer clears r_bit[k] only if it set a higher r_bit[`] to true,
+* The writer clears r_bit[k] only if it set a higher r_bit[`] to true,
 for $ > k.
