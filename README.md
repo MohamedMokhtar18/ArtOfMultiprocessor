@@ -156,3 +156,24 @@ class shown in [SequentialRegister](https://github.com/MohamedMokhtar18/ArtOfMul
 expect: each read returns the “last” value written. threads communicate by reading and writing to atomic registers is intuitively appealing, and
 for a long time was the standard model of concurrent computation.It is also important to specify how many readers and writers are expected. Not
 surprisingly
+###  MRSW Safe Registers
+  If A’s read() call does not overlap any write() call, then the read()
+call returns the value of s_table[A], which is the most recently written value.
+For overlapping method calls, the reader may return any value, because the
+component registers are safe.
+### A Regular Boolean MRSW Register
+  regular Boolean MRSW register from a
+safe Boolean MRSW register. For Boolean registers, the only difference between
+safe and regular arises when the newly written value x is the same as the old.
+A regular register can only return x, while a safe register may return either
+Boolean value. We circumvent this problem simply by ensuring that a value is
+written only if it is distinct from the previously written value.
+  A read() call that does not overlap any write() call returns the most
+recently written value. If the calls do overlap, there are two cases to consider
+  * If the value being written is the same as the last value written, then the writer
+avoids writing to the safe register, ensuring that the reader reads the correct
+value.
+  * If the value written now is distinct from the last value written, then those
+values must be true and false because the register is Boolean. A concurrent
+read returns some value in the range of the register, namely either true or
+false, either of which is correct. 
