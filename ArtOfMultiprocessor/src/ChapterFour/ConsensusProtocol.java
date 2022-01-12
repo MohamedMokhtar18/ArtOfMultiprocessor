@@ -1,18 +1,15 @@
 package ChapterFour;
 
-public abstract class ConsensusProtocol<T> implements Consensus<T> {
-	int N;
-	protected T[] proposed = (T[]) new Object[N];
+import java.util.ArrayList;
 
-// announce my input value to the other threads
-	void propose(T value) {
-		proposed[(int) Thread.currentThread().getId()] = value;
-	}
+public abstract class ConsensusProtocol<T>  
+implements Consensus<T> {
+private int N;
+protected ArrayList<T> proposed = new ArrayList<T>();
 
-	public ConsensusProtocol(int N) {
-		this.N = N;
-	}
+protected void propose(T value) {
+proposed.add((int) Thread.currentThread().getId(), value);
+}
 
-// figure out which thread was first
-	abstract public T decide(T value);
+abstract public T decide(T value);
 }

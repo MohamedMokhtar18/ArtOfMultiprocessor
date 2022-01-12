@@ -6,8 +6,7 @@ public class QueueConsensus<T> extends ConsensusProtocol<T> {
 	Queue queue;
 
 // initialize queue with two items
-	public QueueConsensus(int N) {
-		super(N);
+	public QueueConsensus() {
 		queue = new Queue();
 		queue.enq(WIN);
 		queue.enq(LOSE);
@@ -19,8 +18,8 @@ public class QueueConsensus<T> extends ConsensusProtocol<T> {
 		int status = (int) queue.deq();
 		int i = (int) Thread.currentThread().getId();
 		if (status == WIN)
-			return proposed[i];
+			return proposed.get(i);
 		else
-			return proposed[1 - i];
+			return proposed.get(1 - i);
 	}
 }
