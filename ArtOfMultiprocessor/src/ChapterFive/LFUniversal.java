@@ -1,14 +1,17 @@
 package ChapterFive;
 
+import java.util.LinkedList;
+
 public class LFUniversal {
-	private Node[] head;
+	private LinkedList<Node> head = new LinkedList<Node>();
+	// private Node[] head;
 	private Node tail;
 
-	public LFUniversal(int n) {
-		tail = new Node(null);
+	public LFUniversal(Invoc invoc) {
+		tail = new Node(invoc);
 		tail.seq = 1;
-		for (int i = 0; i < n; i++)
-			head[i] = tail;
+		// for (int i = 0; i < n; i++)
+		head.add(tail);
 	}
 
 	public Response apply(Invoc invoc) {
@@ -19,7 +22,8 @@ public class LFUniversal {
 			Node after = before.decideNext.decide(prefer);
 			before.next = after;
 			after.seq = before.seq + 1;
-			head[i] = after;
+			// head[i] = after;
+			head.get(i);
 		}
 		SeqObject myObject = null;// new SeqObject(); won't compile
 		Node current = tail.next;
