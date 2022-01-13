@@ -2,5 +2,5 @@ package ChapterSix;
 
 public class QNodeMCS {
 	boolean locked = false;
-	QNode next = null;
+	QNodeMCS next = null;
 }
